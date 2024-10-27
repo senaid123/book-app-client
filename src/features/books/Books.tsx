@@ -103,7 +103,7 @@ const Authors: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {books.map((book) => (
+                    {books && books.map((book) => (
                         <tr
                             key={book.id}
                             className="bg-white border-b text-center"
