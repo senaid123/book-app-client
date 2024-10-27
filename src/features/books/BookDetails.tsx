@@ -22,7 +22,7 @@ const AuthorDetails: React.FC = () => {
     const [errors, setErrors] = useState<string | null>(null);
     const [updateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
     const [authorModal, setAuthorModal] = useState<boolean>(false);
-    const [validationErrors, setValidationErrors] = useState<string[]>([])
+    const [validationErrors, setValidationErrors] = useState<string[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,15 +50,11 @@ const AuthorDetails: React.FC = () => {
     const handleUpdateBook = async (
         newAuthorData: Omit<Book, 'id' | 'authors'>
     ) => {
-        try {
-            if (book && book.id) {
-                const response = await updateBook(newAuthorData, book.id);
-                if (response.status === 200) {
-                    navigate(0);
-                }
+        if (book && book.id) {
+            const response = await updateBook(newAuthorData, book.id);
+            if (response.status === 200) {
+                navigate(0);
             }
-        } catch (error: any) {
-            console.error('Failed to create author:', error);
         }
     };
 
@@ -80,8 +76,6 @@ const AuthorDetails: React.FC = () => {
             ) {
                 const errors = error.response.data.map((err: any) => err.msg);
                 setValidationErrors(errors);
-            } else {
-                console.error('Failed to create author:', error);
             }
         }
     };
@@ -95,15 +89,14 @@ const AuthorDetails: React.FC = () => {
 
     const handleRemoveBookAuthor = async (id: string) => {
         const authorId = id.toString();
-        try {
-            if (book && book.id) {
-                const response = await removeBookAuthor(book.id.toString(), authorId);
-                if (response.status === 200) {
-                    navigate(0);
-                }
+        if (book && book.id) {
+            const response = await removeBookAuthor(
+                book.id.toString(),
+                authorId
+            );
+            if (response.status === 200) {
+                navigate(0);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -121,8 +114,9 @@ const AuthorDetails: React.FC = () => {
 
     return (
         <div className="flex-grow mt-10">
-           {validationErrors && 
-            <ValidationError validationErrors={validationErrors} /> }
+            {validationErrors && (
+                <ValidationError validationErrors={validationErrors} />
+            )}
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
                 <div className="flex items-center mb-6">
                     <img
@@ -168,35 +162,36 @@ const AuthorDetails: React.FC = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                             {authors.map((author) => (
                                 <div key={author.id} className="flex flex-col">
-                                <Link
-                                    key={author.id}
-                                    to={`/authors/${author.id}`}
-                                >
-                                    <div className="mt-4 border-2 flex p-2 rounded-lg hover:bg-gray-100 cursor-pointer shadow-md">
-                                        <img
-                                            src={author.image}
-                                            className="w-20 mr-3 rounded border border-gray-300 mt-"
-                                        />
-                                        <div>
-                                            <h4 className="text-xl font-semibold">
-                                                {author.firstName}{' '}
-                                                {author.lastName}
-                                            </h4>
-                                            <p className="text-gray-600 text-xs font-semibold">
-                                                dob: {transformDate(author.dob)}
-                                            </p>
+                                    <Link
+                                        key={author.id}
+                                        to={`/authors/${author.id}`}
+                                    >
+                                        <div className="mt-4 border-2 flex p-2 rounded-lg hover:bg-gray-100 cursor-pointer shadow-md">
+                                            <img
+                                                src={author.image}
+                                                className="w-20 mr-3 rounded border border-gray-300 mt-"
+                                            />
+                                            <div>
+                                                <h4 className="text-xl font-semibold">
+                                                    {author.firstName}{' '}
+                                                    {author.lastName}
+                                                </h4>
+                                                <p className="text-gray-600 text-xs font-semibold">
+                                                    dob:{' '}
+                                                    {transformDate(author.dob)}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Link>
-                                 <button
-                                 onClick={() =>
-                                     handleRemoveBookAuthor(author.id)
-                                 }
-                                 className="text-xs text-white bg-red-500 w-20 rounded mt-2 py-1"
-                             >
-                                 Remove
-                             </button>
-                             </div>
+                                    </Link>
+                                    <button
+                                        onClick={() =>
+                                            handleRemoveBookAuthor(author.id)
+                                        }
+                                        className="text-xs text-white bg-red-500 w-20 rounded mt-2 py-1"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
                             ))}
                         </div>
                     ) : (

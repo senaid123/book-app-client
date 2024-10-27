@@ -22,7 +22,7 @@ const AuthorDetails: React.FC = () => {
     const [errors, setErrors] = useState<string | null>(null);
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
     const [bookModal, setBookModal] = useState(false);
-    const [validationErrors, setValidationErrors] = useState<string[]>([])
+    const [validationErrors, setValidationErrors] = useState<string[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -57,15 +57,11 @@ const AuthorDetails: React.FC = () => {
     const handleUpdateAuthor = async (
         newAuthorData: Omit<Author, 'id' | 'books'>
     ) => {
-        try {
-            if (author && author.id) {
-                const response = await updateAuthor(newAuthorData, author.id);
-                if (response.status === 200) {
-                    navigate(0);
-                }
+        if (author && author.id) {
+            const response = await updateAuthor(newAuthorData, author.id);
+            if (response.status === 200) {
+                navigate(0);
             }
-        } catch (error: any) {
-            console.error('Failed to create author:', error);
         }
     };
 
@@ -87,23 +83,17 @@ const AuthorDetails: React.FC = () => {
                     (err: any) => err.msg
                 );
                 setValidationErrors(errors);
-            } else {
-                console.error('Failed to create author:', error);
             }
         }
     };
 
     const handleRemoveAuthorBook = async (id: number) => {
         const bookId = id.toString();
-        try {
-            if (author && author.id) {
-                const response = await removeAuthorBook(author.id, bookId);
-                if (response.status === 200) {
-                    navigate(0);
-                }
+        if (author && author.id) {
+            const response = await removeAuthorBook(author.id, bookId);
+            if (response.status === 200) {
+                navigate(0);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -121,8 +111,9 @@ const AuthorDetails: React.FC = () => {
 
     return (
         <div className="flex-grow mt-10">
-            {validationErrors && 
-            <ValidationError validationErrors={validationErrors} /> }
+            {validationErrors && (
+                <ValidationError validationErrors={validationErrors} />
+            )}
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
                 <div className="flex items-center mb-6">
                     <img

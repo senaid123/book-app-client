@@ -40,8 +40,6 @@ const Authors: React.FC = () => {
             ) {
                 const errors = error.response.data.map((err: any) => err.msg);
                 setValidationErrors(errors);
-            } else {
-                console.error('Failed to create author:', error);
             }
         }
     };
@@ -103,37 +101,38 @@ const Authors: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {books && books.map((book) => (
-                        <tr
-                            key={book.id}
-                            className="bg-white border-b text-center"
-                        >
-                            <td className="p-4">
-                                <img
-                                    src={book.image}
-                                    className="w-20 h-20 md:w-32 max-w-full"
-                                    alt="Author Image"
-                                />
-                            </td>
-                            <td className="px-6 py-4 font-semibold text-gray-900 ">
-                                {book.title}
-                            </td>
+                    {books &&
+                        books.map((book) => (
+                            <tr
+                                key={book.id}
+                                className="bg-white border-b text-center"
+                            >
+                                <td className="p-4">
+                                    <img
+                                        src={book.image}
+                                        className="w-20 h-20 md:w-32 max-w-full"
+                                        alt="Author Image"
+                                    />
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-gray-900 ">
+                                    {book.title}
+                                </td>
 
-                            <td className="px-6 py-4 font-semibold text-gray-900">
-                                {book.pages}
-                            </td>
-                            <td className="px-6 py-4 font-semibold text-gray-900">
-                                {book.published}
-                            </td>
-                            <td className="px-6 py-4 font-semibold text-gray-900">
-                                <Link to={`/books/${book.id}`}>
-                                    <button className="bg-blue-500 text-white p-2 rounded-lg">
-                                        Details
-                                    </button>
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
+                                <td className="px-6 py-4 font-semibold text-gray-900">
+                                    {book.pages}
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-gray-900">
+                                    {book.published}
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-gray-900">
+                                    <Link to={`/books/${book.id}`}>
+                                        <button className="bg-blue-500 text-white p-2 rounded-lg">
+                                            Details
+                                        </button>
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
             <BookModal

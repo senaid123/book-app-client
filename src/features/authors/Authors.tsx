@@ -46,8 +46,6 @@ const Authors: React.FC = () => {
                     (err: any) => err.msg
                 );
                 setValidationErrors(errors);
-            } else {
-                console.error('Failed to create author:', error);
             }
         }
     };
